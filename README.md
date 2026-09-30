@@ -50,7 +50,9 @@ HWP_Reader_MCP/
 
 한컴오피스 설치는 필요하지 않습니다.
 
-## 설치
+## 처음 설치하기
+
+저장소를 복제한 뒤 프로젝트 전용 Python 가상환경을 만들고 필요한 패키지를 설치합니다.
 
 ```powershell
 git clone https://github.com/dudektls/HWP_Reader_MCP.git
@@ -60,6 +62,27 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install -r .\requirements.txt
 ```
+
+설치 후에는 아래의 **Codex STDIO 연결** 설정까지 완료해야 Tool을 사용할 수 있습니다. 저장소를 복제하는 것만으로는 MCP 서버가 Codex에 자동 등록되지 않습니다.
+
+## 기존 설치 업데이트하기
+
+이미 저장소를 복제하고 Codex 연결까지 마쳤다면 프로젝트 폴더에서 다음 명령을 실행합니다.
+
+```powershell
+git pull origin main
+.\.venv\Scripts\python.exe -m pip install -r .\requirements.txt
+```
+
+`git pull`은 최신 코드를 내려받는 작업입니다. `requirements.txt`가 변경되었을 가능성이 있으므로 의존성 설치 명령도 다시 실행하는 것이 안전합니다.
+
+업데이트를 적용하려면 실행 중인 MCP 서버를 다시 시작합니다.
+
+1. Codex 설정에서 `HWP_Reader` 스위치를 껐다가 다시 켭니다.
+2. 새 대화에서 `check_server` Tool을 호출합니다.
+3. 정상 실행 메시지가 나오면 최신 코드가 반영된 상태입니다.
+
+가상환경이나 프로젝트 위치를 변경하지 않았다면 Codex 연결 정보를 다시 등록할 필요는 없습니다.
 
 ## MCP Inspector 실행
 
@@ -92,6 +115,29 @@ run
 --transport
 stdio
 ```
+
+환경 변수와 환경 변수 패스스루 항목은 비워 두어도 됩니다. Windows 경로에 공백이 포함되어 있어도 각 입력 칸에는 따옴표 없이 절대 경로를 입력합니다.
+
+설정을 저장하고 `HWP_Reader` 스위치를 켠 뒤 다음과 같이 요청하여 연결을 확인합니다.
+
+```text
+HWP_Reader의 check_server 도구를 호출하고 결과를 알려줘.
+```
+
+정상적으로 연결되면 다음 메시지가 반환됩니다.
+
+```text
+HWP Reader MCP 서버가 정상적으로 실행되었습니다.
+```
+
+## 설치 후 확인 목록
+
+- 저장소를 clone 또는 pull했는지 확인
+- `.venv` 가상환경을 생성했는지 확인
+- `requirements.txt`의 패키지를 설치했는지 확인
+- Codex에 실행 명령, 인자, 작업 디렉터리를 등록했는지 확인
+- MCP 서버 스위치를 켰는지 확인
+- `check_server` Tool 호출이 성공하는지 확인
 
 ## 제공 Tool
 
